@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import './App.css';
 
 function App() {
   const [todo, setTodo] = useState("");
@@ -7,21 +6,15 @@ function App() {
   const [editIndex, setEditIndex] = useState(null);
 
   const addOrUpdateTodo = () => {
-    if (todo.trim() === "") return; // Prevent adding empty todos
+    if (todo.trim() === "") return; 
 
-    if (editIndex !== null) {
-      // Update existing todo
-      const updatedTodos = todos.map((item, index) =>
-        index === editIndex ? todo : item
-      );
-      setTodos(updatedTodos);
-      setEditIndex(null);
-    } else {
-      // Add new todo
-      setTodos([...todos, todo]);
-    }
+    const updatedTodos = editIndex !== null
+      ? todos.map((item, index) => (index === editIndex ? todo : item))
+      : [...todos, todo];
 
-    setTodo(""); // Clear input
+    setTodos(updatedTodos);
+    setTodo(""); 
+    setEditIndex(null); 
   };
 
   const startEditing = (index) => {
@@ -35,35 +28,41 @@ function App() {
   };
 
   return (
-    <div className='w-1/2 mx-auto my-6'>
-      <h1 className='text-center text-4xl'>Todo Application</h1>
+    <div className="max-w-md mx-auto my-6 p-4 bg-white shadow-lg rounded-lg border-2">
+      <h1 className="text-center text-3xl font-bold mb-4">Todo Application</h1>
 
-      <div className='flex gap-4 justify-center items-center my-4'>
+      <div className="flex gap-4 justify-center items-center my-4">
         <input
           type="text"
-          placeholder='Enter Your Todo'
-          className='flex flex-grow border-2 p-2 px-2'
+          placeholder="Enter Your Todo"
+          className="flex-grow border-2 border-gray-300 p-2 rounded focus:border-blue-500"
           value={todo}
           onChange={(e) => setTodo(e.target.value)}
         />
         <button
-          className='rounded p-2 bg-blue-500 text-white'
+          className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600 transition"
           onClick={addOrUpdateTodo}
         >
           {editIndex !== null ? 'Update Todo' : 'Add Todo'}
         </button>
       </div>
 
-      <ul className='mt-4'>
+      <ul className="mt-4">
         {todos.map((item, index) => (
-          <li key={index} className='flex justify-between border-b p-2'>
-            <span>{item}</span>
+          <li key={index} className="flex justify-between items-center border-b border-gray-300 p-2">
+            <span className="flex-grow">{item}</span>
             <div>
-              <button onClick={() => startEditing(index)} className='text-blue-500 mr-2'>
+              <button
+                onClick={() => startEditing(index)}
+                className="bg-blue-500 text-white rounded px-2 py-1 mr-2 hover:bg-blue-600 transition"
+              >
                 Edit
               </button>
-              <button onClick={() => deleteTodo(index)} className='text-red-500'>
-                Delete Todo
+              <button
+                onClick={() => deleteTodo(index)}
+                className="bg-red-500 text-white rounded px-2 py-1 hover:bg-red-600 transition"
+              >
+                Delete
               </button>
             </div>
           </li>
