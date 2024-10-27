@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import "./App.css"
+import "./App.css";
+
 function App() {
   const [todo, setTodo] = useState("");
   const [todos, setTodos] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
-  const [todoCompleted, setTodoCompleted] = useState(false)
+  const [completed, setCompleted] = useState([]); // State to track completed todos
+
   const addOrUpdateTodo = () => {
     if (todo.trim() === "") return;
 
@@ -12,7 +14,12 @@ function App() {
       ? todos.map((item, index) => (index === editIndex ? todo : item))
       : [...todos, todo];
 
+    const updatedCompleted = editIndex !== null
+      ? completed // keep existing completed states
+      : [...completed, false]; // add new todo as incomplete
+
     setTodos(updatedTodos);
+    setCompleted(updatedCompleted);
     setTodo("");
     setEditIndex(null);
   };
@@ -24,22 +31,28 @@ function App() {
 
   const deleteTodo = (index) => {
     const updatedTodos = todos.filter((_, i) => i !== index);
+    const updatedCompleted = completed.filter((_, i) => i !== index); // remove completion status
     setTodos(updatedTodos);
+    setCompleted(updatedCompleted);
   };
 
-  
-
+  const toggleCompletion = (index) => {
+    const updatedCompleted = completed.map((isCompleted, i) => 
+      i === index ? !isCompleted : isCompleted
+    );
+    setCompleted(updatedCompleted);
+  };
 
   return (
-    <div className="background w-full h-screen  py-8"> {/* w-full for full width and h-screen for full height */}
-      <div className="max-w-md mx-auto my-6  p-4 bg-white shadow-lg rounded-lg border-2">
-        <h1 className="text-center text-3xl font-bold mb-4 my-3">Todo Application</h1>
+    <div className="background w-full h-screen flex items-center justify-center">
+      <div className="max-w-md w-full p-4 bg-white shadow-lg rounded-lg border-2">
+        <h1 className="text-center text-3xl font-bold mb-4">Todo Application</h1>
 
         <div className="flex gap-4 justify-center items-center my-4">
           <input
             type="text"
             placeholder="Enter Your Todo"
-            className="flex-grow border-2 border-gray-300 my-4 p-2 rounded focus:border-blue-500 font-bold"
+            className="flex-grow border-2 border-gray-300 p-2 rounded focus:border-blue-500 font-bold"
             value={todo}
             onChange={(e) => setTodo(e.target.value)}
           />
@@ -54,7 +67,12 @@ function App() {
         <ul className="mt-4">
           {todos.map((item, index) => (
             <li key={index} className="flex justify-between items-center border-b border-gray-300 p-2">
-              <h3 className={`flex-grow text-3xl`}  >{item}</h3>
+              <h3 
+                className={`flex-grow text-3xl ${completed[index] ? 'text-green-500 line-through' : ''}`} // Change color and add line-through for completed
+                onClick={() => toggleCompletion(index)} // Toggle completion on click
+              >
+                {item}
+              </h3>
               <div>
                 <button
                   onClick={() => startEditing(index)}
@@ -74,7 +92,6 @@ function App() {
         </ul>
       </div>
     </div>
-
   );
 }
 
