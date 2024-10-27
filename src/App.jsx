@@ -33,13 +33,13 @@ function App() {
   return (
     <div className="background w-full h-screen  py-8"> {/* w-full for full width and h-screen for full height */}
       <div className="max-w-md mx-auto my-6  p-4 bg-white shadow-lg rounded-lg border-2">
-        <h1 className="text-center text-3xl font-bold mb-4">Todo Application</h1>
+        <h1 className="text-center text-3xl font-bold mb-4 my-3">Todo Application</h1>
 
         <div className="flex gap-4 justify-center items-center my-4">
           <input
             type="text"
             placeholder="Enter Your Todo"
-            className="flex-grow border-2 border-gray-300 p-2 rounded focus:border-blue-500 font-bold"
+            className="flex-grow border-2 border-gray-300 my-4 p-2 rounded focus:border-blue-500 font-bold"
             value={todo}
             onChange={(e) => setTodo(e.target.value)}
           />
