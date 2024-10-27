@@ -46,9 +46,9 @@ function App() {
   return (
     <div className="background w-full h-screen flex items-center justify-center">
       <div className="max-w-md w-full p-4 bg-white shadow-lg rounded-lg border-2">
-        <h1 className="text-center text-3xl font-bold mb-4">Todo Application</h1>
+        <h1 className="text-center text-3xl font-bold mb-4 font-mono">Todo Application</h1>
 
-        <div className="flex gap-4 justify-center items-center my-4">
+        <div className="flex gap-4 justify-center items-center my-4 ">
           <input
             type="text"
             placeholder="Enter Your Todo"
